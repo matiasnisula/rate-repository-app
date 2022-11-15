@@ -1,0 +1,1 @@
+## Full Stack 2022 osa 10 React Native
