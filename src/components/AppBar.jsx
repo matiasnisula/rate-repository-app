@@ -2,6 +2,7 @@ import { View, StyleSheet } from "react-native";
 import Constants from "expo-constants";
 import AppBarTab from "./AppBarTab";
 import theme from "../theme";
+import { ScrollView } from "react-native-web";
 
 const styles = StyleSheet.create({
   container: {
@@ -12,16 +13,27 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.appBarBackground,
   },
-  flexItem: {
-    marginBottom: 10,
-    marginLeft: 10,
+  appBarTab: {
+    paddingBottom: 10,
+    paddingLeft: 10,
   },
 });
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <AppBarTab style={styles.flexItem} />
+      <ScrollView horizontal>
+        <AppBarTab
+          style={styles.appBarTab}
+          text="Repository"
+          path="/"
+        />
+        <AppBarTab
+          style={styles.appBarTab}
+          text="Sign in"
+          path="/signin"
+        />
+      </ScrollView>
     </View>
   );
 };

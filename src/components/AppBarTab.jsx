@@ -1,13 +1,13 @@
 import { Pressable } from "react-native";
+import { Link } from "react-router-native";
 import Text from "./Text";
 
-const AppBarTab = ({ style }) => {
-  const onPress = () => {
-    console.log("Pressed");
-  }
+const AppBarTab = ({ style, text, path }) => {
   return (
-    <Pressable style={style} onPress={onPress}>
-      <Text color="appBar">Repositories</Text>
+    <Pressable style={style}>
+      <Link to={path}>
+        <Text color="appBar">{text}</Text>
+      </Link>
     </Pressable>
   );
 };
