@@ -1,3 +1,4 @@
+import * as Yup from "yup";
 import Text from "./Text";
 import FormikTextInput from "./FormikTextInput";
 import { Formik } from "formik";
@@ -23,6 +24,15 @@ const stylesForm = StyleSheet.create({
   },
 });
 
+const validationSchema = Yup.object().shape({
+  username: Yup
+    .string()
+    .required("Username is required"),
+  password: Yup
+    .string()
+    .required("Password is required"),
+});
+
 const SignInForm = () => {
   return (
     <Formik
@@ -30,6 +40,7 @@ const SignInForm = () => {
         username: "",
         password: "",
       }}
+      validationSchema={validationSchema}
       onSubmit={(values) => console.log("FormValues:", values)}
     >
       {({ handleSubmit }) => {
