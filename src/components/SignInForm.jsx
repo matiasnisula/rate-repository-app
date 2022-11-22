@@ -3,6 +3,7 @@ import Text from "./Text";
 import FormikTextInput from "./FormikTextInput";
 import { Formik } from "formik";
 import { View, Pressable, StyleSheet } from "react-native";
+import { useNavigate } from "react-router-native";
 import useSignIn from "../hooks/useSignIn";
 import theme from "../theme";
 
@@ -32,13 +33,14 @@ const validationSchema = Yup.object().shape({
 
 const SignInForm = () => {
   const [signIn] = useSignIn();
+  const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    console.log("FormValues:", values);
     const { username, password } = values;
     try {
       const result = await signIn({ username, password });
       console.log("Result (form.js):", result);
+      navigate("/");
     } catch (error) {
       console.log("ERROR:", error);
     }
