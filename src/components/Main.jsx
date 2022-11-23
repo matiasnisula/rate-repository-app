@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Route, Routes, Navigate } from "react-router-native";
 import RepositoryList from "./RepositoryList";
 import AppBar from "./AppBar";
 import SignInForm from "./SignInForm";
 import theme from "../theme";
+import { GET_LOGGED_USER } from "../graphql/queries";
+import { useQuery } from "@apollo/client";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,9 +18,23 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  const [loggedUser, setLoggedUser] = useState(null);
+  const { data, error, loading } = useQuery(GET_LOGGED_USER);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (error) {
+      console.log(error);
+      return;
+    }
+    setLoggedUser(data.me);
+  });
+
   return (
     <View style={styles.container}>
-      <AppBar />
+      <AppBar loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
       <Routes>
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signin" element={<SignInForm />} />

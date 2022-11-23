@@ -19,3 +19,12 @@ export const GET_REPOSITORIES = gql`
     }
   }
 `;
+
+export const GET_LOGGED_USER = gql`
+  query getLogggedUser {
+    me {
+      id
+      username
+    }
+  }
+`;

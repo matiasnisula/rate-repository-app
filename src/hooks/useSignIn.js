@@ -13,7 +13,7 @@ const useSignIn = () => {
     });
     const token = response.data.authenticate.accessToken;
     await authStorage.setAccessToken(token);
-    client.resetStore();
+    await client.resetStore();
     return response.data.authenticate;
   };
 
