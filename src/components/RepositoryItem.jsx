@@ -134,7 +134,7 @@ const RepositoryItem = ({
   ownerAvatarUrl,
 }) => {
   return (
-    <View style={itemStyles.container}>
+    <View testID="repositoryItem" style={itemStyles.container}>
       <ItemHeader {...{ fullName, description, language, ownerAvatarUrl }} />
       <RepositoryStatistics
         {...{ forksCount, stargazersCount, ratingAverage, reviewCount }}
