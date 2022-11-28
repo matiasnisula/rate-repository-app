@@ -14,6 +14,7 @@ export const REPOSITORY_FIELDS = gql`
     stargazersCount
     ownerAvatarUrl
     language
+    url
   }
 `;
 

@@ -1,4 +1,5 @@
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Pressable } from "react-native";
+import * as Linking from 'expo-linking';
 import Text from "./Text";
 import theme from "../theme";
 
@@ -7,7 +8,7 @@ const itemStyles = StyleSheet.create({
     display: "flex",
     alignItems: "stretch",
     flexWrap: "wrap",
-    flexGrow: 1,
+    flexGrow: 0,
     backgroundColor: theme.colors.repositoryItem,
   },
 });
@@ -49,6 +50,18 @@ const itemStatisticsStyles = StyleSheet.create({
   statisticContainer: {
     flexDirection: "col",
     justifyContent: "center",
+  },
+});
+
+const buttonStyles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.primary,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    flexGrow: 0,
+    height: 30,
+    margin: 10,
   },
 });
 
@@ -132,13 +145,26 @@ const RepositoryItem = ({
   ratingAverage,
   reviewCount,
   ownerAvatarUrl,
+  url,
+  showAll,
 }) => {
+  const openInGitHub = async () => {
+    await Linking.openURL(url);
+  };
+
   return (
     <View testID="repositoryItem" style={itemStyles.container}>
       <ItemHeader {...{ fullName, description, language, ownerAvatarUrl }} />
       <RepositoryStatistics
         {...{ forksCount, stargazersCount, ratingAverage, reviewCount }}
       />
+      {showAll && (
+        <Pressable style={buttonStyles.container} onPress={openInGitHub}>
+          <Text fontWeight="bold" style={{ color: "white" }}>
+            Open in GitHub
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };

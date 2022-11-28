@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Route, Routes, Navigate } from "react-router-native";
+import { useQuery } from "@apollo/client";
 import RepositoryList from "./RepositoryList";
+import SingleRepositoryView from "./SingleRepositoryView";
 import AppBar from "./AppBar";
 import SignInForm from "./SignInForm";
 import theme from "../theme";
 import { GET_LOGGED_USER } from "../graphql/queries";
-import { useQuery } from "@apollo/client";
 
 const styles = StyleSheet.create({
   container: {
@@ -38,6 +39,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signin" element={<SignInForm />} />
+        <Route path="/:repositoryID" element={<SingleRepositoryView />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </View>

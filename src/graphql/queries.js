@@ -28,3 +28,12 @@ export const GET_LOGGED_USER = gql`
     }
   }
 `;
+
+export const GET_REPOSITORY_BY_ID = gql`
+  ${REPOSITORY_FIELDS}
+  query getRepositoryById($id: ID!) {
+    repository(id: $id) {
+      ...RepositoryFields
+    }
+  }
+`;
