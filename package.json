@@ -28,6 +28,7 @@
     "@expo/metro-config": "^0.5.1",
     "@expo/webpack-config": "^0.17.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
+    "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "expo": "~46.0.17",
     "expo-linking": "~3.2.2",
@@ -50,9 +51,8 @@
     "eslint-plugin-jest": "^27.1.5",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-native": "^4.0.0",
-    "jest": "^27.5.1",
     "jest-expo": "^47.0.1",
-    "react-test-renderer": "^18.0.0"
+    "react-test-renderer": "18.0.0"
   },
   "private": true
 }
