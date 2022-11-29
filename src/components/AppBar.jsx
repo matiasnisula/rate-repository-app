@@ -53,12 +53,19 @@ const AppBar = ({ loggedUser, setLoggedUser }) => {
         />
         {loggedUser && (
           <AppBarTab
-          style={styles.appBarTab}
-          text="Create a review"
-          onPress={() => navigate("/createreview")}
+            style={styles.appBarTab}
+            text="Create a review"
+            onPress={() => navigate("/createreview")}
           />
-          )}
+        )}
         {loggedUser ? signOutTab : signInTab}
+        {!loggedUser && (
+          <AppBarTab
+            style={styles.appBarTab}
+            text="Sign up"
+            onPress={() => navigate("/signup")}
+          />
+        )}
       </ScrollView>
     </View>
   );
