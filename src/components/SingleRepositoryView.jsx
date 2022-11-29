@@ -100,10 +100,9 @@ const SingleRepositoryView = () => {
         };
       })
     : [];
-  
-  console.log("repository:", repository);
+
   console.log("reviews:", repositoryReviews);
-  
+
   const renderItem = ({ item }) => {
     return <ReviewItem review={item} />;
   };

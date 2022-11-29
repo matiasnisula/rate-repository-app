@@ -6,6 +6,7 @@ import RepositoryList from "./RepositoryList";
 import SingleRepositoryView from "./SingleRepositoryView";
 import AppBar from "./AppBar";
 import SignInForm from "./SignInForm";
+import CreateReviewForm from "./CreateReviewForm";
 import theme from "../theme";
 import { GET_LOGGED_USER } from "../graphql/queries";
 
@@ -40,6 +41,7 @@ const Main = () => {
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signin" element={<SignInForm />} />
         <Route path="/:repositoryID" element={<SingleRepositoryView />} />
+        <Route path="/createreview" element={<CreateReviewForm />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </View>

@@ -32,6 +32,7 @@ const AppBar = ({ loggedUser, setLoggedUser }) => {
     setLoggedUser(null);
     navigate("/");
   };
+
   const signInTab = (
     <AppBarTab
       style={styles.appBarTab}
@@ -50,6 +51,13 @@ const AppBar = ({ loggedUser, setLoggedUser }) => {
           text="Repository"
           onPress={() => navigate("/")}
         />
+        {loggedUser && (
+          <AppBarTab
+          style={styles.appBarTab}
+          text="Create a review"
+          onPress={() => navigate("/createreview")}
+          />
+          )}
         {loggedUser ? signOutTab : signInTab}
       </ScrollView>
     </View>
