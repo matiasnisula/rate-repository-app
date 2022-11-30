@@ -101,8 +101,6 @@ const SingleRepositoryView = () => {
       })
     : [];
 
-  console.log("reviews:", repositoryReviews);
-
   const renderItem = ({ item }) => {
     return <ReviewItem review={item} />;
   };

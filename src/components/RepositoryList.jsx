@@ -1,81 +1,57 @@
-import { useState } from "react";
+import React from "react";
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import { useNavigate } from "react-router-native";
-import { Picker } from "@react-native-picker/picker";
+import { useDebouncedCallback } from "use-debounce";
 import useRepositories from "../hooks/useRepositories";
 import RepositoryItem from "./RepositoryItem";
-import theme from "../theme";
-
+import RepositoryListHeader from "./RepositoryListHeader";
 const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
 });
 
-const styleSelectionMenu = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "col",
-    height: 150,
-    backgroundColor: theme.colors.backgroundMain,
-  },
-});
-
-const ItemSeparator = () => <View style={styles.separator} />;
-
-const RepositoryListOrderSelection = ({ selectedOrder, setSelectedOrder }) => {
-  return (
-    <Picker
-      style={styleSelectionMenu.container}
-      selectedValue={selectedOrder}
-      onValueChange={(itemValues) => {
-        setSelectedOrder(itemValues);
-      }}
-    >
-      <Picker.Item label="Latest repositories" value="CREATED_AT" />
-      <Picker.Item
-        label="Highest rated repositories"
-        value="RATING_AVERAGE_DESC"
-      />
-      <Picker.Item
-        label="Lowest rated repositories"
-        value="RATING_AVERAGE_ASC"
-      />
-    </Picker>
-  );
-};
-
-export const RepositoryListContainer = ({
-  repositories,
-  navigate,
-  selectedOrder,
-  setSelectedOrder,
-}) => {
-  const repositoryNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
-    : [];
-
-  const renderItem = ({ item }) => {
+export class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
     return (
-      <Pressable onPress={() => navigate(`/${item.id}`)}>
+      <RepositoryListHeader
+        selectedOrder={this.props.selectedOrder}
+        setSelectedOrder={this.props.setSelectedOrder}
+        setSearchKeywordDebounced={this.props.setSearchKeywordDebounced}
+      />
+    );
+  };
+
+  renderItem = ({ item }) => {
+    return (
+      <Pressable onPress={() => this.props.navigate(`/${item.id}`)}>
         <RepositoryItem {...item} showAll={false} />
       </Pressable>
     );
   };
-  return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={renderItem}
-      ListHeaderComponent={() => (
-        <RepositoryListOrderSelection
-          selectedOrder={selectedOrder}
-          setSelectedOrder={setSelectedOrder}
-        />
-      )}
-    />
-  );
-};
+  itemSeparator = () => {
+    return <View style={styles.separator} />;
+  };
+
+  getRepositoryNodes = () => {
+    const repositoryNodes = this.props.repositories
+      ? this.props.repositories.edges.map((edge) => edge.node)
+      : [];
+    return repositoryNodes;
+  }
+  
+  render() {
+    
+    return (
+      <FlatList
+        data={this.getRepositoryNodes()}
+        ItemSeparatorComponent={this.itemSeparator}
+        renderItem={this.renderItem}
+        ListHeaderComponent={this.renderHeader}
+      />
+    );
+  }
+}
 
 const parseUseRepositoriesArgs = (selectedOrder) => {
   switch (selectedOrder) {
@@ -98,14 +74,17 @@ const parseUseRepositoriesArgs = (selectedOrder) => {
 };
 
 const RepositoryList = () => {
-  const [selectedOrder, setSelectedOrder] = useState();
-  console.log("Selected order:", selectedOrder);
+  const [selectedOrder, setSelectedOrder] = React.useState();
+  const [searchKeyword, setSearchKeyword] = React.useState("");
+  const setSearchKeywordDebounced = useDebouncedCallback((value) => {
+    setSearchKeyword(value);
+  }, 500);
   const useRepositoryArgs = parseUseRepositoriesArgs(selectedOrder);
-  console.log("args:", useRepositoryArgs);
 
   const { repositories } = useRepositories(
     useRepositoryArgs.orderBy,
-    useRepositoryArgs.orderDirection
+    useRepositoryArgs.orderDirection,
+    searchKeyword
   );
   const navigate = useNavigate();
 
@@ -115,6 +94,7 @@ const RepositoryList = () => {
       navigate={navigate}
       selectedOrder={selectedOrder}
       setSelectedOrder={setSelectedOrder}
+      setSearchKeywordDebounced={setSearchKeywordDebounced}
     />
   );
 };
