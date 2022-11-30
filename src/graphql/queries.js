@@ -8,11 +8,15 @@ export const GET_REPOSITORIES = gql`
     $orderBy: AllRepositoriesOrderBy
     $orderDirection: OrderDirection
     $searchKeyword: String
+    $first: Int
+    $after: String
   ) {
     repositories(
       orderBy: $orderBy
       orderDirection: $orderDirection
       searchKeyword: $searchKeyword
+      first: $first
+      after: $after
     ) {
       edges {
         cursor
@@ -39,10 +43,11 @@ export const GET_LOGGED_USER = gql`
 
 export const GET_REPOSITORY_BY_ID = gql`
   ${REPOSITORY_FIELDS}
-  query getRepositoryById($id: ID!) {
+  ${PAGE_INFO_FIELDS}
+  query getRepositoryById($id: ID!, $first: Int, $after: String) {
     repository(id: $id) {
       ...RepositoryFields
-      reviews {
+      reviews(first: $first, after: $after) {
         edges {
           node {
             id
@@ -54,6 +59,10 @@ export const GET_REPOSITORY_BY_ID = gql`
               username
             }
           }
+          cursor
+        }
+        pageInfo {
+          ...PageInfoFields
         }
       }
     }

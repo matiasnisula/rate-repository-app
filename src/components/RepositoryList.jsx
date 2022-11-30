@@ -39,6 +39,11 @@ export class RepositoryListContainer extends React.Component {
       : [];
     return repositoryNodes;
   }
+
+  onEndReach = () => {
+    console.log("fetching more...");
+    this.props.fetchMore();
+  }
   
   render() {
     
@@ -47,6 +52,7 @@ export class RepositoryListContainer extends React.Component {
         data={this.getRepositoryNodes()}
         ItemSeparatorComponent={this.itemSeparator}
         renderItem={this.renderItem}
+        onEndReached={this.onEndReach}
         ListHeaderComponent={this.renderHeader}
       />
     );
@@ -81,7 +87,7 @@ const RepositoryList = () => {
   }, 500);
   const useRepositoryArgs = parseUseRepositoriesArgs(selectedOrder);
 
-  const { repositories } = useRepositories(
+  const { repositories, fetchMore } = useRepositories(
     useRepositoryArgs.orderBy,
     useRepositoryArgs.orderDirection,
     searchKeyword
@@ -95,6 +101,7 @@ const RepositoryList = () => {
       selectedOrder={selectedOrder}
       setSelectedOrder={setSelectedOrder}
       setSearchKeywordDebounced={setSearchKeywordDebounced}
+      fetchMore={fetchMore}
     />
   );
 };

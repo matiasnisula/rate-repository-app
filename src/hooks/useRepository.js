@@ -4,10 +4,31 @@ import { GET_REPOSITORY_BY_ID } from "../graphql/queries";
 
 const useRepository = (repositoryID) => {
   const [repository, setRepository] = useState(null);
-  const { data, error, loading } = useQuery(GET_REPOSITORY_BY_ID, {
-    fetchPolicy: "cache-and-network",
-    variables: { id: repositoryID },
-  });
+  const variables = {
+    id: repositoryID,
+    first: 4,
+  };
+  const { data, error, loading, fetchMore, ...result } = useQuery(
+    GET_REPOSITORY_BY_ID,
+    {
+      fetchPolicy: "cache-and-network",
+      variables: { ...variables },
+    }
+  );
+
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data?.repository.reviews.pageInfo.hasNextPage;
+    if (!canFetchMore) {
+      return;
+    }
+    fetchMore({
+      variables: {
+        after: data.repository.reviews.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
 
   useEffect(() => {
     if (loading) {
@@ -17,9 +38,10 @@ const useRepository = (repositoryID) => {
       console.log("ERROR:", error);
     }
     setRepository(data.repository);
-  }, [loading]);
+    console.log("data.reviews:", data.repository.reviews);
+  }, [data?.repository]);
 
-  return { repository, error, loading };
+  return { repository, error, loading, fetchMore: handleFetchMore, result };
 };
 
 export default useRepository;

@@ -88,10 +88,14 @@ const ReviewItem = ({ review }) => {
   );
 };
 
+const renderItem = ({ item }) => {
+  return <ReviewItem review={item} />;
+};
+
 const SingleRepositoryView = () => {
   const { repositoryID } = useParams();
 
-  const { repository } = useRepository(repositoryID);
+  const { repository, fetchMore } = useRepository(repositoryID);
   const repositoryReviews = repository
     ? repository.reviews.edges.map((edge) => {
         return {
@@ -101,15 +105,16 @@ const SingleRepositoryView = () => {
       })
     : [];
 
-  const renderItem = ({ item }) => {
-    return <ReviewItem review={item} />;
-  };
+  const onEndReach = () => {
+    fetchMore();
+  }
 
   return (
     <FlatList
       data={repositoryReviews}
       renderItem={renderItem}
       keyExtractor={({ id }) => id}
+      onEndReached={onEndReach}
       ListHeaderComponent={() => (
         <RepositoryItem {...repository} showAll={true} />
       )}
