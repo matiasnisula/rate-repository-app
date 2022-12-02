@@ -33,10 +33,25 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const GET_LOGGED_USER = gql`
-  query getLogggedUser {
+  query getLogggedUser($includeReviews: Boolean = false) {
     me {
       id
       username
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            repositoryId
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;

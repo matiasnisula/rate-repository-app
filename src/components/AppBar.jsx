@@ -58,6 +58,13 @@ const AppBar = ({ loggedUser, setLoggedUser }) => {
             onPress={() => navigate("/createreview")}
           />
         )}
+        {loggedUser && (
+          <AppBarTab
+            style={styles.appBarTab}
+            text="My reviews"
+            onPress={() => navigate("/myreviews")}
+          />
+        )}
         {loggedUser ? signOutTab : signInTab}
         {!loggedUser && (
           <AppBarTab

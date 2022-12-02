@@ -38,15 +38,14 @@ export class RepositoryListContainer extends React.Component {
       ? this.props.repositories.edges.map((edge) => edge.node)
       : [];
     return repositoryNodes;
-  }
+  };
 
   onEndReach = () => {
     console.log("fetching more...");
     this.props.fetchMore();
-  }
-  
+  };
+
   render() {
-    
     return (
       <FlatList
         data={this.getRepositoryNodes()}

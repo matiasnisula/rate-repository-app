@@ -39,7 +39,7 @@ const useRepositories = (orderBy, orderDirection, searchKeyword) => {
       console.log("ERROR:", error);
     }
     setRepositories(data.repositories);
-  }, [data?.repositories]);
+  }, [data?.repositories, loading]);
 
   return { repositories, error, loading, fetchMore: handleFetchMore, result };
 };

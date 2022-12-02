@@ -39,7 +39,7 @@ const useRepository = (repositoryID) => {
     }
     setRepository(data.repository);
     console.log("data.reviews:", data.repository.reviews);
-  }, [data?.repository]);
+  }, [data?.repository, loading]);
 
   return { repository, error, loading, fetchMore: handleFetchMore, result };
 };
