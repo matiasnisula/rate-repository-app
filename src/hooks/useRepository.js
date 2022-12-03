@@ -38,7 +38,6 @@ const useRepository = (repositoryID) => {
       console.log("ERROR:", error);
     }
     setRepository(data.repository);
-    console.log("data.reviews:", data.repository.reviews);
   }, [data?.repository, loading]);
 
   return { repository, error, loading, fetchMore: handleFetchMore, result };

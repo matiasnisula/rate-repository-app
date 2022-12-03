@@ -41,7 +41,6 @@ export class RepositoryListContainer extends React.Component {
   };
 
   onEndReach = () => {
-    console.log("fetching more...");
     this.props.fetchMore();
   };
 

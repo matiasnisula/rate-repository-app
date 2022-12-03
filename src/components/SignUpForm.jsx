@@ -52,8 +52,7 @@ const SignUpForm = () => {
   const onSubmit = async (values) => {
     const { username, password } = values;
     try {
-      const resultUser = await createUser({ username, password });
-      console.log("ResultUser:", resultUser);
+      await createUser({ username, password });
       await signIn({ username, password });
       navigate("/");
     } catch (error) {

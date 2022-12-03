@@ -1,15 +1,17 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Pressable } from "react-native";
 import Text from "./Text";
 import theme from "../theme";
 
 const itemStyles = StyleSheet.create({
   container: {
     display: "flex",
+    flexDirection: "column",
     alignItems: "stretch",
     flexWrap: "wrap",
-    flexGrow: 0,
+    flexGrow: 1,
     backgroundColor: theme.colors.repositoryItem,
     marginTop: 5,
+    marginLeft: 5,
     padding: 10,
   },
 });
@@ -17,7 +19,7 @@ const itemStyles = StyleSheet.create({
 const itemHeaderStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    flexGrow: 1,
+    flexGrow: 0,
   },
   ratingContainer: {
     width: 40,
@@ -31,8 +33,7 @@ const itemHeaderStyles = StyleSheet.create({
     borderColor: theme.colors.primary,
   },
   infoContainer: {
-    flexGrow: 1,
-    flexShrink: 1,
+    flexGrow: 0,
     padding: 5,
   },
 });
@@ -44,6 +45,53 @@ const itemTextStyle = StyleSheet.create({
     paddingVertical: 10,
   },
 });
+
+const buttonProperties = {
+  borderRadius: 5,
+  flexGrow: 0,
+  height: 40,
+  alignItems: "center",
+  justifyContent: "center",
+  padding: 10,
+  marginRight: 5,
+};
+
+const buttonStyles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+  },
+  viewRepositoryButton: {
+    ...buttonProperties,
+    backgroundColor: theme.colors.primary,
+  },
+  deleteReviewButton: {
+    ...buttonProperties,
+    backgroundColor: "red",
+  },
+});
+
+const ItemButtons = ({ onPressViewRepository, onPressDeleteReview }) => {
+  return (
+    <View style={buttonStyles.container}>
+      <Pressable
+        style={buttonStyles.viewRepositoryButton}
+        onPress={onPressViewRepository}
+      >
+        <Text fontWeight="bold" style={{ color: "white" }}>
+          View repository
+        </Text>
+      </Pressable>
+      <Pressable
+        style={buttonStyles.deleteReviewButton}
+        onPress={onPressDeleteReview}
+      >
+        <Text fontWeight="bold" style={{ color: "white" }}>
+          Delete review
+        </Text>
+      </Pressable>
+    </View>
+  );
+};
 
 const ItemHeader = ({ headline, createdAt, rating }) => {
   return (
@@ -71,7 +119,13 @@ const ItemBody = ({ text }) => {
   );
 };
 
-const ReviewItem = ({ review, headlineType }) => {
+const ReviewItem = ({
+  review,
+  headlineType,
+  showButtons,
+  onPressViewRepository,
+  onPressDeleteReview,
+}) => {
   return (
     <View style={itemStyles.container}>
       <ItemHeader
@@ -84,6 +138,12 @@ const ReviewItem = ({ review, headlineType }) => {
         rating={review.rating}
       />
       <ItemBody text={review.text} />
+      {showButtons && (
+        <ItemButtons
+          onPressViewRepository={onPressViewRepository}
+          onPressDeleteReview={onPressDeleteReview}
+        />
+      )}
     </View>
   );
 };

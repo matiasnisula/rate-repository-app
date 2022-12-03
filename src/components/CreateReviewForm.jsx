@@ -39,10 +39,8 @@ const CreateReviewForm = () => {
   const [createReview] = useCreateReview();
   const navigate = useNavigate();
   const onSubmit = async (values) => {
-    console.log("FormValues:", values);
     try {
       const responseReview = await createReview(values);
-      console.log("ResponseReview:", responseReview);
       navigate(`/${responseReview.repositoryId}`);
     } catch (error) {
       console.log("ERROR:", error);
